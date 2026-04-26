@@ -1,0 +1,160 @@
+# main.py (Week 12 – Final Integrated System)
+
+from parking import Slot, ParkingLot
+import storage
+import analytics
+import charts
+
+
+def display_menu():
+    print("\n========== SMART PARKING SYSTEM ==========")
+
+    print("1. Add New Slot")
+    print("2. View All Slots")
+    print("3. Update Slot Status")
+    print("4. Allocate Slot")
+    print("5. View NumPy Statistics")
+    print("6. View Pandas Reports")
+    print("7. Show Charts")
+    print("8. Save Data")
+    print("9. Exit")
+
+
+def main():
+
+    # Ensure CSV files exist
+    storage.ensure_files()
+
+    # Load existing slots
+    loaded_slots = storage.load_slots(Slot)
+
+    # Create ParkingLot object
+    parking_lot = ParkingLot()
+
+    # Add loaded slots
+    for slot in loaded_slots:
+        parking_lot.add_existing_slot(slot)
+
+    while True:
+
+        display_menu()
+
+        try:
+            choice = int(input("\nEnter your choice: "))
+
+            # 1 ADD SLOT
+            if choice == 1:
+
+                slot_id = int(
+                    input("Enter Slot ID: ")
+                )
+
+                slot_type = input(
+                    "Enter Slot Type (Regular/EV/Accessible): "
+                )
+
+                parking_lot.add_slot(
+                    slot_id,
+                    slot_type
+                )
+
+                print("Slot added successfully.")
+
+            # 2 VIEW SLOTS
+            elif choice == 2:
+
+                parking_lot.display_slots()
+
+            # 3 UPDATE STATUS
+            elif choice == 3:
+
+                slot_id = int(
+                    input("Enter Slot ID: ")
+                )
+
+                status = input(
+                    "Enter Status (Free/Occupied/Reserved): "
+                )
+
+                parking_lot.update_slot(
+                    slot_id,
+                    status
+                )
+
+                # Save log
+                storage.save_log(
+                    slot_id,
+                    status
+                )
+
+                print("Slot updated successfully.")
+
+            # 4 ALLOCATE SLOT
+            elif choice == 4:
+
+                vehicle_type = input(
+                    "Enter Vehicle Type: "
+                )
+
+                parking_lot.allocate_slot(
+                    vehicle_type
+                )
+
+            # 5 NUMPY STATISTICS
+            elif choice == 5:
+
+                analytics.occupancy_statistics()
+
+            # 6 PANDAS REPORTS
+            elif choice == 6:
+
+                analytics.slot_type_usage_report()
+
+                analytics.occupancy_trend_report()
+
+                analytics.full_pandas_report()
+
+            # 7 CHARTS
+            elif choice == 7:
+
+                charts.bar_chart()
+
+                charts.pie_chart()
+
+                charts.line_chart()
+
+            # 8 SAVE DATA
+            elif choice == 8:
+
+                storage.save_slots(
+                    parking_lot.slots
+                )
+
+                print("Data saved successfully.")
+
+            # 9 EXIT
+            elif choice == 9:
+
+                storage.save_slots(
+                    parking_lot.slots
+                )
+
+                print("Saving data and exiting...")
+
+                break
+
+            else:
+
+                print("Invalid choice.")
+
+        except ValueError:
+
+            print("Invalid input. Enter numbers only.")
+
+        except Exception as e:
+
+            print("Error:", e)
+
+
+if __name__ == "__main__":
+    main()
