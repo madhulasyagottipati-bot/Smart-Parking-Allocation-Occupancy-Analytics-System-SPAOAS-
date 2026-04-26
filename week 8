@@ -1,0 +1,95 @@
+# main.py
+
+from parking import Slot, ParkingLot
+import storage
+
+
+def main():
+
+    storage.ensure_files()
+
+    # Load existing slots
+    slots = storage.load_slots(Slot)
+
+    parking_lot = ParkingLot()
+
+    for slot in slots:
+        parking_lot.add_existing_slot(slot)
+
+    while True:
+
+        print("\nSMART PARKING SYSTEM")
+        print("1. Add Slot")
+        print("2. View Slots")
+        print("3. Update Slot Status")
+        print("4. Allocate Slot")
+        print("5. Save & Exit")
+
+        try:
+            choice = int(input("Enter choice: "))
+
+            if choice == 1:
+
+                slot_id = int(input("Enter Slot ID: "))
+
+                if slot_id <= 0:
+                    raise ValueError
+
+                slot_type = input(
+                    "Enter Slot Type (Regular/EV/Accessible): "
+                )
+
+                parking_lot.add_slot(slot_id, slot_type)
+
+            elif choice == 2:
+
+                parking_lot.display_slots()
+
+            elif choice == 3:
+
+                slot_id = int(input("Enter Slot ID: "))
+                status = input(
+                    "Enter Status (Free/Occupied/Reserved): "
+                )
+
+                parking_lot.update_slot(
+                    slot_id,
+                    status
+                )
+
+                storage.save_log(
+                    slot_id,
+                    status
+                )
+
+            elif choice == 4:
+
+                vehicle_type = input(
+                    "Enter Vehicle Type: "
+                )
+
+                parking_lot.allocate_slot(
+                    vehicle_type
+                )
+
+            elif choice == 5:
+
+                storage.save_slots(
+                    parking_lot.slots
+                )
+
+                print("Data Saved. Exiting...")
+                break
+
+            else:
+                print("Invalid choice.")
+
+        except ValueError:
+            print("Invalid input. Enter numbers only.")
+
+        except Exception as e:
+            print("Error:", e)
+
+
+if __name__ == "__main__":
+    main()
