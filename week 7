@@ -1,0 +1,68 @@
+# storage.py
+
+import csv
+import os
+from datetime import datetime
+
+SLOTS_FILE = "data/slots.csv"
+LOG_FILE = "data/logs.csv"
+
+
+# Create data folder if missing
+def ensure_files():
+    os.makedirs("data", exist_ok=True)
+
+    if not os.path.exists(SLOTS_FILE):
+        with open(SLOTS_FILE, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["SlotID", "Type", "Status"])
+
+    if not os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["SlotID", "Action", "Time"])
+
+
+# Save slots to CSV
+def save_slots(slots):
+    with open(SLOTS_FILE, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["SlotID", "Type", "Status"])
+
+        for slot in slots:
+            writer.writerow([
+                slot.slot_id,
+                slot.slot_type,
+                slot.status
+            ])
+
+
+# Load slots from CSV
+def load_slots(SlotClass):
+    slots = []
+
+    try:
+        with open(SLOTS_FILE, "r") as file:
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                slot = SlotClass(
+                    int(row["SlotID"]),
+                    row["Type"],
+                    row["Status"]
+                )
+                slots.append(slot)
+
+    except FileNotFoundError:
+        print("Slots file not found.")
+
+    return slots
+
+
+# Save log entry
+def save_log(slot_id, action):
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(LOG_FILE, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([slot_id, action, time])
