@@ -1,0 +1,77 @@
+# analytics.py (Week 10 - Pandas Part)
+
+import pandas as pd
+
+
+def load_data():
+    """
+    Load parking slot data
+    """
+
+    try:
+        df = pd.read_csv("data/slots.csv")
+        return df
+
+    except FileNotFoundError:
+        print("Slots file not found.")
+        return None
+
+
+def slot_type_usage_report():
+    """
+    Display slot-type usage using groupby
+    """
+
+    df = load_data()
+
+    if df is None:
+        return
+
+    print("\n--- SLOT TYPE USAGE REPORT ---")
+
+    usage = (
+        df.groupby("Type")
+        ["Status"]
+        .count()
+    )
+
+    print(usage)
+
+
+def occupancy_trend_report():
+    """
+    Display occupancy trend report
+    """
+
+    df = load_data()
+
+    if df is None:
+        return
+
+    print("\n--- OCCUPANCY TREND REPORT ---")
+
+    trend = (
+        df.groupby("Status")
+        .size()
+    )
+
+    print(trend)
+
+
+def full_pandas_report():
+    """
+    Display complete Pandas report
+    """
+
+    df = load_data()
+
+    if df is None:
+        return
+
+    print("\n--- FULL PARKING DATA ---")
+
+    print(df)
+
+    print("\n--- SUMMARY ---")
+
+    print(df.describe(include="all"))
