@@ -1,0 +1,26 @@
+# WEEK 1 - Basic Parking Slot Input
+
+print("SMART PARKING SLOT ENTRY")
+
+# Slot ID Input
+while True:
+    try:
+        slot_id = int(input("Enter Slot ID (positive number): "))
+        if slot_id > 0:
+            break
+        else:
+            print("Slot ID must be greater than 0.")
+    except ValueError:
+        print("Invalid input. Enter numeric value.")
+
+# Slot Type Input
+slot_type = input("Enter Slot Type (Regular / EV / Accessible): ").title()
+
+# Slot Status Input
+slot_status = input("Enter Slot Status (Free / Occupied): ").title()
+
+# Display Output
+print("\n--- Parking Slot Details ---")
+print(f"Slot ID   : {slot_id}")
+print(f"Slot Type : {slot_type}")
+print(f"Status    : {slot_status}")
