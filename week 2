@@ -1,0 +1,39 @@
+# WEEK 2 - Menu Driven Parking System
+
+slots = []
+
+def add_slot():
+    slot_id = int(input("Enter Slot ID: "))
+    slot_type = input("Enter Slot Type: ").title()
+    slot_status = input("Enter Slot Status: ").title()
+
+    slots.append([slot_id, slot_type, slot_status])
+    print("Slot added successfully!\n")
+
+def view_slots():
+    if len(slots) == 0:
+        print("No slots available.\n")
+        return
+
+    print("\nID\tType\t\tStatus")
+    for s in slots:
+        print(f"{s[0]}\t{s[1]}\t{s[2]}")
+    print()
+
+# Menu Loop
+while True:
+    print("1. Add Slot")
+    print("2. View Slots")
+    print("3. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_slot()
+    elif choice == "2":
+        view_slots()
+    elif choice == "3":
+        print("Program Ended")
+        break
+    else:
+        print("Invalid Choice\n")
