@@ -1,0 +1,45 @@
+from datetime import datetime
+
+slots = []
+logs = []
+
+def add_slot():
+    slot = {
+        "id": int(input("Enter Slot ID: ")),
+        "type": input("Enter Slot Type: "),
+        "status": input("Enter Slot Status: ")
+    }
+    slots.append(slot)
+    print("Slot Added!")
+
+def update_status():
+    slot_id = int(input("Enter Slot ID: "))
+    for s in slots:
+        if s["id"] == slot_id:
+            new_status = input("Enter New Status: ")
+            s["status"] = new_status
+            logs.append((slot_id, new_status, datetime.now()))
+            print("Updated!")
+            return
+    print("Slot Not Found!")
+
+def view_slots():
+    for s in slots:
+        print(s)
+
+while True:
+    print("\n1. Add")
+    print("2. Update")
+    print("3. View")
+    print("4. Exit")
+
+    ch = input("Choice: ")
+
+    if ch == "1":
+        add_slot()
+    elif ch == "2":
+        update_status()
+    elif ch == "3":
+        view_slots()
+    elif ch == "4":
+        break
