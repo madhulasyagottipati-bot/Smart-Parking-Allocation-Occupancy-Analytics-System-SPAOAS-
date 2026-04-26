@@ -1,0 +1,75 @@
+# WEEK 4 - Function Based Parking System
+
+slots = []
+
+# Add Slot Function
+def add_slot(slot_id, slot_type, slot_status):
+    slot = {
+        "id": slot_id,
+        "type": slot_type.title(),
+        "status": slot_status.title()
+    }
+    slots.append(slot)
+    print("Slot added successfully!\n")
+
+# View Slots Function
+def view_slots():
+    if not slots:
+        print("No slots available.\n")
+        return
+
+    print("\nID\tType\t\tStatus")
+    for s in slots:
+        print(f"{s['id']}\t{s['type']}\t{s['status']}")
+    print()
+
+# Search Slot by ID
+def search_slot(slot_id):
+    for s in slots:
+        if s["id"] == slot_id:
+            print("Slot Found:", s)
+            return
+    print("Slot not found\n")
+
+# Update Slot Status
+def update_slot_status(slot_id, new_status):
+    for s in slots:
+        if s["id"] == slot_id:
+            s["status"] = new_status.title()
+            print("Status Updated\n")
+            return
+    print("Slot not found\n")
+
+# Menu
+while True:
+    print("1. Add Slot")
+    print("2. View Slots")
+    print("3. Search Slot")
+    print("4. Update Slot Status")
+    print("5. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        sid = int(input("Enter Slot ID: "))
+        stype = input("Enter Slot Type: ")
+        sstatus = input("Enter Slot Status: ")
+        add_slot(sid, stype, sstatus)
+
+    elif choice == "2":
+        view_slots()
+
+    elif choice == "3":
+        sid = int(input("Enter Slot ID to search: "))
+        search_slot(sid)
+
+    elif choice == "4":
+        sid = int(input("Enter Slot ID: "))
+        new_status = input("Enter New Status: ")
+        update_slot_status(sid, new_status)
+
+    elif choice == "5":
+        break
+
+    else:
+        print("Invalid Choice\n")
