@@ -1,0 +1,76 @@
+# charts.py
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def load_data():
+
+    df = pd.read_csv("data/slots.csv")
+
+    return df
+
+
+def bar_chart():
+
+    df = load_data()
+
+    counts = df["Status"].value_counts()
+
+    plt.figure()
+
+    counts.plot(kind="bar")
+
+    plt.title(
+        "Free vs Occupied Slots"
+    )
+
+    plt.xlabel("Status")
+
+    plt.ylabel("Count")
+
+    plt.show()
+
+
+def pie_chart():
+
+    df = load_data()
+
+    counts = df["Type"].value_counts()
+
+    plt.figure()
+
+    counts.plot(
+        kind="pie",
+        autopct="%1.1f%%"
+    )
+
+    plt.title(
+        "Slot Type Distribution"
+    )
+
+    plt.show()
+
+
+def line_chart():
+
+    df = load_data()
+
+    df["Index"] = range(len(df))
+
+    plt.figure()
+
+    plt.plot(
+        df["Index"],
+        df["Index"]
+    )
+
+    plt.title(
+        "Occupancy Trend"
+    )
+
+    plt.xlabel("Slots")
+
+    plt.ylabel("Trend")
+
+    plt.show()
